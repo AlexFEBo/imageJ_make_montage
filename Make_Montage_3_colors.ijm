@@ -74,8 +74,8 @@ if (file_list_488.length != file_list_647.length) {
 
         run("Scale Bar...", "width=5 height=5 thickness=8 font=24 bold overlay");
         // Save the montage(tiff + png)
-        saveAs("Tiff", output + File.separator + "Montage_noSuffix_tif" + File.getNameWithoutExtension(file_list_488[i]) + ".tif");
-        saveAs("PNG", output + File.separator + "Montage_noSuffix_PNG" + File.getNameWithoutExtension(file_list_488[i]) + ".png");
+        saveAs("Tiff", output + File.separator + "Montage_" + File.getNameWithoutExtension(file_list_488[i]) + ".tif");
+        saveAs("PNG", output + File.separator + "Montage_" + File.getNameWithoutExtension(file_list_488[i]) + ".png");
 
         // Close images
         close("*");
