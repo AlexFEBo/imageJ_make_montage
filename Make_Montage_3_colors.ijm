@@ -69,14 +69,26 @@ if (file_list_488.length != file_list_647.length) {
         // Create a Stack
         run("Images to Stack", "use keep");
         // Make Montage
-        run("Make Montage...", "columns=3 rows=1 scale=0.75 title=[" + input_488 + "] font=24 label");
-
+        run("Make Montage...", "columns=2 rows=2 scale=0.75 title=[" + input_488 + "] font=24 label");
         // Add the scale bar
+
         run("Scale Bar...", "width=5 height=5 thickness=8 font=24 bold overlay");
-        // Save the montage
-        saveAs("Tiff", output + File.separator + "Montage_" + file_list_488[i] + ".tif");
+        // Save the montage(tiff + png)
+        saveAs("Tiff", output + File.separator + "Montage_noSuffix_tif" + File.getNameWithoutExtension(file_list_488[i]) + ".tif");
+        saveAs("PNG", output + File.separator + "Montage_noSuffix_PNG" + File.getNameWithoutExtension(file_list_488[i]) + ".png");
 
         // Close images
         close("*");
     }
 }
+
+/* TODO:
+* - Create functions to perform:
+*   - the processing on single images (Open / Transform to 8 bits / Subtract Background / Add Color / Rename ) 
+*   - the merging of the two images (Merge / Flatten / Stack / Montage / Scale Bar)
+*   Call the functions within the loop
+* - Add condition to process only tif images (use the suffix variable defined in the dialog box)
+* - Add the possibility to adjust contrast before Background subtract ? 
+* - Compile the macro to make implement it within the plugin functions of ImageJ (Selfnote, is it the correct way to do it?)
+* - Add the possibility to choose the number of rows and columns of the montage / the color to be used for each channel
+*/
