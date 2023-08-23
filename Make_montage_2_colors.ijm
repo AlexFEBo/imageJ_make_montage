@@ -55,11 +55,12 @@ if (file_list_488.length != file_list_647.length) {
         run("Images to Stack", "use keep");
         // Make Montage
         run("Make Montage...", "columns=3 rows=1 scale=0.75 title=[" + input_488 + "] font=24 label");
-
         // Add the scale bar
         run("Scale Bar...", "width=5 height=5 thickness=8 font=24 bold overlay");
-        // Save the montage
-        saveAs("Tiff", output + File.separator + "Montage_" + file_list_488[i] + ".tif");
+
+        // Save the montage (tiff + png)
+        saveAs("Tiff", output + File.separator + "Montage_noSuffix_tif" + File.getNameWithoutExtension(file_list_488[i]) + ".tif");
+        saveAs("PNG", output + File.separator + "Montage_noSuffix_PNG" + File.getNameWithoutExtension(file_list_488[i]) + ".png");
 
         // Close images
         close("*");
@@ -67,34 +68,11 @@ if (file_list_488.length != file_list_647.length) {
 }
 
 /* TODO:
-* - use the function File.getNameWithoutExtension() to remove the extension of the file before saving (avoid having .tif.tif etc)
-* example: 		saveAs("Tiff", output + File.separator + "no_Suf_Tif" + File.getNameWithoutExtension(file_list_488[i]) + ".tif");
-* - Save as Jpeg (compressed = quality loss, maybe png is better if it keeps the scale bar) + tif, only Jpeg keeps the scale bar not Tiff
-* Verify that the undefined variables bug is not shown.
-* valid partiel code example for saving:
-// Create a dialog box for user inputs
-#@ File (label = "Directory 488", style = "directory") input_488
-#@ File (label = "Directory 647", style = "directory") input_647
-#@ File (label = "Output directory", style = "directory") output
-#@ String (label = "Target green", value = "antibody1") target_green
-#@ String (label = "Target red", value = "antibody2") target_red
-
-// Create variables
-file_list_488 = getFileList(input_488);
-file_list_647 = getFileList(input_647);
-file_list_488 = Array.sort(file_list_488);
-file_list_647 = Array.sort(file_list_647);
-
-// Verify that folder contains the same number of files and make montage on the opened images
-
-if (file_list_488.length != file_list_647.length) {
-    print("Error: The number of files in the two folders is not the same");
-    exit();
-} else {
-    for (i = 0; i < file_list_488.length; i++) {
-        // open the "488" image
-        run("Bio-Formats", "open=[" + input_488 + File.separator + file_list_488[i] + "] autoscale color_mode=Default rois_import=[ROI manager] split_channels view=Hyperstack stack_order=XYCZT");     
-        // Save test
-		saveAs("Tiff", output + File.separator + "no_Suf_Tif" + File.getNameWithoutExtension(file_list_488[i]) + ".tif");
-		saveAs("Jpeg", output + File.separator + "no_Suf_Jpeg" + File.getNameWithoutExtension(file_list_488[i]) + ".jpg");
+* - Create functions to perform:
+*   - the processing on single images (Open / Transform to 8 bits / Subtract Background / Add Color / Rename ) 
+*   - the merging of the two images (Merge / Flatten / Stack / Montage / Scale Bar)
+*   Call the functions within the loop
+* - Add condition to process only tif images (use the suffix variable defined in the dialog box)
+* - Add the possibility to adjust contrast before Background subtract ? 
+* - Compile the macro to make implement it within the plugin functions of ImageJ (Selfnote, is it the correct way to do it?)
 */      
